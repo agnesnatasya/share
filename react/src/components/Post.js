@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import { List, Header, Rating } from "semantic-ui-react";
-import { EditOrder } from "./EditPost";
+import { EditPost } from "./EditPost";
 import { BrowserRouter as Router, Link, Redirect } from "react-router-dom";
 
 export class Post extends Component {
@@ -26,7 +26,7 @@ export class Post extends Component {
 
   showForm () {
    return (
-     <EditOrder onChangeInfo={this.onChangeInfo} orderid={this.state.orderid} />
+     <EditPost onChangeInfo={this.onChangeInfo} orderid={this.state.orderid} />
     )
   };    
 
@@ -35,7 +35,6 @@ export class Post extends Component {
     <List.Item key={this.props.order.id}>
       <Header as="h1">{this.state.title}</Header>
       <List.Item>{this.state.body}</List.Item>
-      <List.Item>{this.state.items}</List.Item>
       <button className="ui right floated button" onClick={this.onClick}>
       Edit
       </button>
