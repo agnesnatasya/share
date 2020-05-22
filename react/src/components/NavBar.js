@@ -21,12 +21,12 @@ export class NavBar extends Component {
         <Menu.Item
           name="Current Posts"
           onClick={async () => {
-              const response = await fetch("/posts");
-
+              const response = await fetch('/posts');
+              console.log("HELP");
               if (response.ok) {
                 console.log("response worked");
-                const orders = (await response.json());
-                this.props.onChangeOrders(orders.orders);
+                const posts = (await response.json());
+                this.props.onChangePosts(posts.posts);
               }
           }
         }
@@ -40,9 +40,8 @@ export class NavBar extends Component {
 
               if (response.ok) {
                 console.log("response worked");
-                const orders = (await response.json());
-                console.log(orders);
-                this.props.onChangeMyOrders(orders.orders);
+                const posts = (await response.json());
+                this.props.onChangeMyPosts(posts.posts);
               }
             }
           }

@@ -4,6 +4,7 @@ import './App.css';
 import { SignUp } from './components/SignUp';
 import { RegisterForm } from './components/RegisterForm';
 import { NavBar } from './components/NavBar';
+import { Posts } from './components/Posts'
 import { Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
