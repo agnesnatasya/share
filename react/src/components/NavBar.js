@@ -19,9 +19,9 @@ export class NavBar extends Component {
     return (
       <Menu pointing secondary>
         <Menu.Item
-          name="Current Orders"
+          name="Current Posts"
           onClick={async () => {
-              const response = await fetch("/orders");
+              const response = await fetch("/posts");
 
               if (response.ok) {
                 console.log("response worked");
@@ -31,12 +31,12 @@ export class NavBar extends Component {
           }
         }
           as={Link}
-          to="/orders"
+          to="/posts"
         />
         <Menu.Item
-          name="My Orders"
+          name="My Posts"
           onClick={async () => {
-              const response = await fetch("/my-orders/" + this.props.userId);
+              const response = await fetch("/my-posts/" + this.props.userId);
 
               if (response.ok) {
                 console.log("response worked");
@@ -47,13 +47,13 @@ export class NavBar extends Component {
             }
           }
           as={Link}
-          to={`/my-orders/${this.props.userId}`}
+          to={`/my-posts/${this.props.userId}`}
         />
         <Menu.Item
-          name="New Order"
+          name="New Post"
           onClick={this.handleItemClick}
           as={Link}
-          to={`/new-order/${this.props.userId}`}
+          to={`/new-post/${this.props.userId}`}
         />
       </Menu>
     );
