@@ -1,5 +1,5 @@
 import React from "react";
-import { Order } from'./Order.js';
+import { Post } from'./Post.js';
 import { List } from "semantic-ui-react";
 
 export const Posts = ({ posts }) => {
