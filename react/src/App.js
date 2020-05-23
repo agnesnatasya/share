@@ -7,9 +7,16 @@ import { PostForm } from './components/PostForm';
 import { MyPosts } from './components/MyPosts';
 import { NavBar } from './components/NavBar';
 import { Posts } from './components/Posts'
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    props.match.params.userId == rest.userId
+      ? <Component {...rest} />
+      : <Redirect to='/login' />
+  )} />
+)
 
 class App extends Component {
   constructor(props) {
@@ -43,15 +50,15 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.myPosts)
+    console.log(this.state.userId)
     if (this.state.userId==0) {
       return(
         <Container style={{ marginTop: 40 }}>
           <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
           <Route exact path="/login" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
           <Route exact path="/sign-up" component={SignUp} />
-          <Route exact path="/new-post/:userId" render={() => <PostForm userId={this.state.userId} />} />
-          <Route exact path="/my-posts/:userId" render={() => <MyPosts userId={this.state.userId} myPosts={this.state.myPosts} />} />
+          <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} component={PostForm} />
+          <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} myPosts={this.state.myPosts} component={() => <MyPosts />} />
       </Container>
       )
     }
@@ -61,8 +68,8 @@ class App extends Component {
         <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
         <Route exact path="/login" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/new-post/:userId" render={() => <PostForm userId={this.state.userId} />} />
-        <Route exact path="/my-posts/:userId" render={() => <MyPosts userId={this.state.userId} myPosts={this.state.myPosts} />} />
+        <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} component={PostForm} />
+        <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} component={() => <MyPosts myPosts={this.state.myPosts} />} />
       </Container>
     );
   }
