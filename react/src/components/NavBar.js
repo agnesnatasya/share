@@ -6,7 +6,7 @@ import { Menu } from "semantic-ui-react";
 export class NavBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeItem: "home" };
+    this.state = { activeItem: 'Current Posts' };
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
@@ -16,12 +16,13 @@ export class NavBar extends Component {
 
   render() {
     return (
-      <Menu pointing secondary>
+      <Menu pointing secondary fluid widths={3}>
         <Menu.Item
-          name="Current Posts"
+          name='Current Posts'
+          active={this.state.activeItem === 'Current Posts'}
           onClick={async () => {
+              this.setState({ activeItem: 'Current Posts' });
               const response = await fetch('/posts');
-              console.log("HELP");
               if (response.ok) {
                 console.log("response worked");
                 const posts = (await response.json());
@@ -33,8 +34,10 @@ export class NavBar extends Component {
           to="/posts"
         />
         <Menu.Item
-          name="My Posts"
+          name='My Posts'
+          active={this.state.activeItem === 'My Posts'}
           onClick={async () => {
+              this.setState({ activeItem: 'My Posts' });
               const response = await fetch("/my-posts/" + this.props.userId);
 
               if (response.ok) {
@@ -48,7 +51,8 @@ export class NavBar extends Component {
           to={`/my-posts/${this.props.userId}`}
         />
         <Menu.Item
-          name="New Post"
+          name='New Post'
+          active={this.state.activeItem === 'New Post'}
           onClick={this.handleItemClick}
           as={Link}
           to={`/new-post/${this.props.userId}`}
