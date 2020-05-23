@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 
 export class SignUp extends Component {
@@ -84,8 +84,11 @@ export class SignUp extends Component {
 
               />
 
-              <Button content="Register" primary onClick={this.setRedirect} />
+              <Button content="Register" primary toggle onClick={this.setRedirect} fluid />
             </Form>
+            <Divider horizontal></Divider>
+            <Button content="Back to Login" compact toggle as={Link} to='/login' />
+
           </Grid.Column>
 
         </Grid>
