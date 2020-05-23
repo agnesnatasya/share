@@ -20,7 +20,7 @@ export class RegisterForm extends Component {
   }
 
   async setRedirect() {
-      const user = { username: this.state.name,
+      const user = { username: this.state.username,
                     password: this.state.password,
                    };
       const response = await fetch("/login", {
