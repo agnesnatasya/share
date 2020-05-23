@@ -7,7 +7,7 @@ export class SignUp extends Component {
         super(props);
 
         this.state = {
-          name: "",
+          username: "",
           phone: 0,
           address: "",
           password: "",
@@ -18,7 +18,7 @@ export class SignUp extends Component {
   }
 
   onChangeInfo(newInfo) {
-    this.setState({ name: newInfo.name,  phone: newInfo.phone, address: newInfo.address, password: newInfo.password })
+    this.setState({ username: newInfo.username,  phone: newInfo.phone, address: newInfo.address, password: newInfo.password })
   }
 
   renderRedirect = () => {
@@ -29,7 +29,7 @@ export class SignUp extends Component {
 
   async setRedirect() {
     const user = {
-      name: this.state.name,
+      username: this.state.username,
       phone: this.state.phone,
       address: this.state.address,
       password: this.state.password,
@@ -57,29 +57,29 @@ export class SignUp extends Component {
                 icon='user'
                 iconPosition='left'
                 label='Name'
-                placeholder='name'
-                onChange={e => this.setState({name:e.target.value})}
+                placeholder='Name'
+                onChange={e => this.setState({username:e.target.value})}
               />
               <Form.Input
                 type='integer'
                 icon='user'
                 iconPosition='left'
                 label='Phone'
-                placeholder='phone'
+                placeholder='Phone'
                 onChange={e => this.setState({phone:e.target.value})}
               />
               <Form.Input
                 icon='user'
                 iconPosition='left'
                 label='Address'
-                placeholder='address'
+                placeholder='Address'
                 onChange={e => this.setState({address:e.target.value})}
               />
               <Form.Input
                 icon='lock'
                 iconPosition='left'
                 label='Password'
-                type='password'
+                type='Password'
                 onChange={e => this.setState({password:e.target.value})}
 
               />

@@ -5,7 +5,7 @@ import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 export class RegisterForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {  name:"",
+    this.state = {  username:"",
                     password:"",
                     redirect: false
                   };
@@ -15,12 +15,12 @@ export class RegisterForm extends Component {
   renderRedirect = () => {
     if (this.state.redirect) {
 
-      return <Redirect to="/orders" />;
+      return <Redirect to="/posts" />;
     }
   }
 
   async setRedirect() {
-      const user = { name: this.state.name,
+      const user = { username: this.state.username,
                     password: this.state.password,
                    };
       const response = await fetch("/login", {
@@ -37,12 +37,12 @@ export class RegisterForm extends Component {
 
       const userid = await response.text();
 
-      const response2 = await fetch("/orders");
+      const response2 = await fetch("/posts");
       if (response2.ok) {
         console.log("response worked");
-        const orders = (await response2.json());
-        console.log(orders);
-        this.props.onChangeOrders(orders.orders);
+        const posts = (await response2.json());
+        console.log(posts);
+        this.props.onChangePosts(posts.posts);
       }
                   //const userid = {await response.text()};
       this.handleChangeUserId(userid);
@@ -64,8 +64,8 @@ export class RegisterForm extends Component {
                 icon='user'
                 iconPosition='left'
                 label='Name'
-                placeholder='name'
-                onChange={e => this.setState({name:e.target.value})}
+                placeholder='Username'
+                onChange={e => this.setState({username:e.target.value})}
               />
               <Form.Input
                 icon='lock'

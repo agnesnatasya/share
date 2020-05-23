@@ -43,6 +43,18 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.myPosts)
+    if (this.state.userId==0) {
+      return(
+        <Container style={{ marginTop: 40 }}>
+          <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
+          <Route exact path="/login" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
+          <Route exact path="/sign-up" component={SignUp} />
+          <Route exact path="/new-post/:userId" render={() => <PostForm userId={this.state.userId} />} />
+          <Route exact path="/my-posts/:userId" render={() => <MyPosts userId={this.state.userId} myPosts={this.state.myPosts} />} />
+      </Container>
+      )
+    }
     return (
       <Container style={{ marginTop: 40 }}>
         <NavBar userId={this.state.userId} posts={this.state.posts} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />

@@ -21,18 +21,18 @@ export class Post extends Component {
   }
 
   onChangeInfo(newInfo) {
-    this.setState({ items:  newInfo.items? newInfo.items  : this.state.items})
+    this.setState({ body:  newInfo.body })
   }
 
   showForm () {
    return (
-     <EditPost onChangeInfo={this.onChangeInfo} orderid={this.state.orderid} />
+     <EditPost onChangeInfo={this.onChangeInfo} postid={this.state.postid} body={this.state.body} />
     )
   };    
 
   render() {
     return (
-    <List.Item key={this.props.order.id}>
+    <List.Item key={this.props.post.postid}>
       <Header as="h1">{this.state.title}</Header>
       <List.Item>{this.state.body}</List.Item>
       <button className="ui right floated button" onClick={this.onClick}>

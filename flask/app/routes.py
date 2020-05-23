@@ -17,10 +17,10 @@ def login():
 	
 	login_input = request.get_json()
 	#return login_input['name']
-	user = list(filter(lambda x: x.name == login_input['name'], User.query.all()))
+	user = list(filter(lambda x: x.username == login_input['username'], User.query.all()))
 	
 	if not user:
-		return 'Login not found Fail', 406
+		return 'Username not found', 406
 
 	if user[0].password != login_input['password']:
 		return 'Wrong password', 406
@@ -34,18 +34,18 @@ def signup():
 	users = User.query.all()
 	error = None
 
-	if not user_data['name']:
-		error = 'Name is required', 406
+	if not user_data['username']:
+		error = 'Username is required', 406
 	if not user_data['password']:
 		error = 'Password is required', 406
-	usernames = list(map(lambda x: x.name, users))
-	if user_data['name'] in usernames:
-		error = 'User is already registered', 406
+	usernames = list(map(lambda x: x.username, users))
+	if user_data['username'] in usernames:
+		error = 'Username is already registered', 406
 
 	if error is None:
-		user_number = len(users)
+		#user_number = len(users)
 
-		new_user = User(userid = user_number + 1, name = user_data['name'], phone = user_data['phone'], address = user_data['address'], password = user_data['password'])
+		new_user = User(username = user_data['username'], phone = user_data['phone'], address = user_data['address'], password = user_data['password'])
 	
 		db.session.add(new_user)
 		db.session.commit()
@@ -71,7 +71,18 @@ def myposts(userid):
 	post_list = Post.query.all()
 	myposts = []
 	for post in post_list:
-		if str(post.postid) == str(userid):
+		if str(post.userid) == str(userid):
 			myposts.append({'postid' : post.postid, 'title' : post.title, 'body' : post.body})
 		
 	return jsonify({'myposts' : myposts})
+
+@app.route('/join-post/<string:postid>', methods = ['POST'])
+def joinpost(postid):
+	join_post_input = request.get_json()
+	post = list(filter(lambda x: x.postid == int(postid), Post.query.all()))[0]
+
+	new_post = Post(postid = int(postid), userid = post.userid, title = post.title, body = join_post_input.get('body'))
+	db.session.delete(post)
+	db.session.add(new_post)
+	db.session.commit()
+	return 'YAS', 201

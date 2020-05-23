@@ -1,14 +1,14 @@
 import React from "react";
-import { MyPost } from './MyPost';
+import { Post } from './Post';
 import { List } from "semantic-ui-react";
 
 export const MyPosts = ({ userId, myPosts }) => {
   return (
     <List>
       {myPosts
-        .map((order) => {
+        .map((post) => {
           return (
-            <MyPost order={order} key={order.id} />
+            <Post post={post} key={post.postid} />
           );
         })}
     </List>

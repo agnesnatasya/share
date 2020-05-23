@@ -27,8 +27,8 @@ export class NavBar extends Component {
                 const posts = (await response.json());
                 this.props.onChangePosts(posts.posts);
               }
+            }
           }
-        }
           as={Link}
           to="/posts"
         />
@@ -39,8 +39,8 @@ export class NavBar extends Component {
 
               if (response.ok) {
                 console.log("response worked");
-                const posts = (await response.json());
-                this.props.onChangeMyPosts(posts.posts);
+                const myposts = (await response.json());
+                this.props.onChangeMyPosts(myposts.myposts);
               }
             }
           }

@@ -6,7 +6,7 @@ export class EditPost extends Component {
         super(props);
 
         this.state = {
-            items: ""
+            body: ""
         };
   }
 
@@ -16,27 +16,27 @@ export class EditPost extends Component {
         <Form.Field>
           <Input
             placeholder="Add to the threads"
-            value={this.state.items}
-            onChange={e => this.setState({items: e.target.value})}
+            value={this.state.body}
+            onChange={e => this.setState({body: e.target.value})}
           />
         </Form.Field>
         <Form.Field>
           <Button
             onClick={async () => {
-              const order = { orderid: this.props.orderid, items: this.state.items };
+              const post = { body: this.props.body + this.state.body };
+              this.state.body = "";
 
-              const response = await fetch("/join-order/" + this.props.orderid, {
+              const response = await fetch("/join-post/" + this.props.postid, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json"
                 },
-                body: JSON.stringify(order)
+                body: JSON.stringify(post)
               });
 
               if (response.ok) {
                 console.log("response worked!");
-                this.props.onChangeInfo(order);
-                this.state.items = "";
+                this.props.onChangeInfo(post);
               }
             }}
           >
