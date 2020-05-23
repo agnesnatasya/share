@@ -1,6 +1,6 @@
 import React from "react";
 import { MyPost } from './MyPost';
-import { List, Header, Rating } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 
 export const MyPosts = ({ userId, myPosts }) => {
   return (

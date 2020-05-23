@@ -15,7 +15,6 @@ export class NavBar extends Component {
   };
 
   render() {
-    console.log(this.props.userId);
     return (
       <Menu pointing secondary>
         <Menu.Item

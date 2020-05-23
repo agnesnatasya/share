@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import { SignUp } from './components/SignUp';
 import { RegisterForm } from './components/RegisterForm';
+import { PostForm } from './components/PostForm';
+import { MyPosts } from './components/MyPosts';
 import { NavBar } from './components/NavBar';
 import { Posts } from './components/Posts'
 import { Route } from 'react-router-dom';
@@ -47,6 +49,8 @@ class App extends Component {
         <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
         <Route exact path="/login" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
         <Route exact path="/sign-up" component={SignUp} />
+        <Route exact path="/new-post/:userId" render={() => <PostForm userId={this.state.userId} />} />
+        <Route exact path="/my-posts/:userId" render={() => <MyPosts userId={this.state.userId} myPosts={this.state.myPosts} />} />
       </Container>
     );
   }

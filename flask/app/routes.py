@@ -52,3 +52,26 @@ def signup():
 		return 'Sign up successful!', 201
 		
 	return error
+
+
+@app.route('/new-post/<string:userid>', methods = ['POST'])
+def newpost(userid):
+	post_data = request.get_json() #resto name, items, location, time
+
+	new_post = Post(userid= userid, title = post_data.get('title'), body = post_data.get('body'))
+	
+	db.session.add(new_post)
+	db.session.commit()
+	
+	return 'YAS', 201
+
+
+@app.route('/my-posts/<string:userid>')
+def myposts(userid):
+	post_list = Post.query.all()
+	myposts = []
+	for post in post_list:
+		if str(post.postid) == str(userid):
+			myposts.append({'postid' : post.postid, 'title' : post.title, 'body' : post.body})
+		
+	return jsonify({'myposts' : myposts})
