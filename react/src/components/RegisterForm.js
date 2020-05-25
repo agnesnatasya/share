@@ -10,6 +10,7 @@ export class RegisterForm extends Component {
                     redirect: false
                   };
     this.setRedirect = this.setRedirect.bind(this);
+    this.props.onChange(0);
   }
 
   renderRedirect = () => {
@@ -44,7 +45,7 @@ export class RegisterForm extends Component {
         console.log(posts);
         this.props.onChangePosts(posts.posts);
       }
-                  //const userid = {await response.text()};
+      //const userid = {await response.text()};
       this.handleChangeUserId(userid);
   }
 
@@ -53,7 +54,7 @@ export class RegisterForm extends Component {
   }
 
   render() {
-
+    
     return (
       <Segment placeholder>
         {this.renderRedirect()}

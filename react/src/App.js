@@ -14,7 +14,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
     props.match.params.userId == rest.userId
       ? <Component {...rest} />
-      : <Redirect to='/login' />
+      : <Redirect to={{
+        pathname: '/login',
+        state: { onChangeUserId: rest.onChangeUserId }
+        }} />
   )} />
 )
 
@@ -68,8 +71,8 @@ class App extends Component {
         <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
         <Route exact path="/login" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
         <Route exact path="/sign-up" component={SignUp} />
-        <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} component={PostForm} />
-        <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} component={() => <MyPosts myPosts={this.state.myPosts} />} />
+        <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={PostForm} />
+        <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={() => <MyPosts myPosts={this.state.myPosts} />} />
       </Container>
     );
   }
