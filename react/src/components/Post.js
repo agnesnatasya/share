@@ -10,14 +10,22 @@ export class Post extends Component {
             showForm: false,
             postid: this.props.post.postid,
             title: this.props.post.title,
-            body: this.props.post.body
+            body: this.props.post.body,
+            buttonName: 'Edit'
         };
         this.onChangeInfo = this.onChangeInfo.bind(this);
         this.onClick = this.onClick.bind(this);
   }
 
   onClick () {
-    this.setState({ showForm: true });
+    if (this.state.showForm === false) {
+      this.setState({ showForm: true });
+      this.setState({ buttonName: 'Cancel'} )
+    } else {
+      this.setState({ showForm: false });
+      this.setState({ buttonName: 'Edit'} )
+    }
+    
   }
 
   onChangeInfo(newInfo) {
@@ -42,7 +50,7 @@ export class Post extends Component {
       </Grid.Column>
       <Grid.Column width={1} floated='right'>
         <button className="ui right floated button" onClick={this.onClick}>
-        Edit
+        {this.state.buttonName}
         </button>
       </Grid.Column>
     </Grid.Row>                                         
