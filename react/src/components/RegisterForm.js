@@ -10,7 +10,6 @@ export class RegisterForm extends Component {
                     redirect: false
                   };
     this.setRedirect = this.setRedirect.bind(this);
-    this.props.onChange(0);
   }
 
   renderRedirect = () => {

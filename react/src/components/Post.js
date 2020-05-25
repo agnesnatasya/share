@@ -7,7 +7,7 @@ export class Post extends Component {
   constructor(props) {
     super(props);
         this.state = {
-            showEditForm: false,
+            showForm: false,
             postid: this.props.post.postid,
             title: this.props.post.title,
             body: this.props.post.body,
@@ -45,7 +45,7 @@ export class Post extends Component {
         <List.Item key={this.props.post.postid}>
           <Header as="h1">{this.state.title}</Header>
           <List.Item>{this.state.body}</List.Item>
-          <List.Item>{this.state.showEditForm && this.showForm()}</List.Item>
+          <List.Item>{this.state.showForm && this.showForm()}</List.Item>
         </List.Item>
       </Grid.Column>
       <Grid.Column width={1} floated='right'>
