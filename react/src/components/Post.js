@@ -33,17 +33,17 @@ export class Post extends Component {
   render() {
     return (
     <Grid.Row columns={2}>
-      <Grid.Column>
+      <Grid.Column width={13}>
         <List.Item key={this.props.post.postid}>
           <Header as="h1">{this.state.title}</Header>
           <List.Item>{this.state.body}</List.Item>
+          <List.Item>{this.state.showForm && this.showForm()}</List.Item>
         </List.Item>
       </Grid.Column>
-      <Grid.Column>
+      <Grid.Column width={1} floated='right'>
         <button className="ui right floated button" onClick={this.onClick}>
         Edit
         </button>
-        {this.state.showForm && this.showForm()}
       </Grid.Column>
     </Grid.Row>                                         
     );
