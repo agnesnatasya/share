@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { List, Header, Rating } from "semantic-ui-react";
+import { List, Header, Grid } from "semantic-ui-react";
 import { EditPost } from "./EditPost";
 import { BrowserRouter as Router, Link, Redirect } from "react-router-dom";
 
@@ -32,14 +32,20 @@ export class Post extends Component {
 
   render() {
     return (
-    <List.Item key={this.props.post.postid}>
-      <Header as="h1">{this.state.title}</Header>
-      <List.Item>{this.state.body}</List.Item>
-      <button className="ui right floated button" onClick={this.onClick}>
-      Edit
-      </button>
-      {this.state.showForm && this.showForm()}
-    </List.Item>                                             
+    <Grid.Row columns={2}>
+      <Grid.Column>
+        <List.Item key={this.props.post.postid}>
+          <Header as="h1">{this.state.title}</Header>
+          <List.Item>{this.state.body}</List.Item>
+        </List.Item>
+      </Grid.Column>
+      <Grid.Column>
+        <button className="ui right floated button" onClick={this.onClick}>
+        Edit
+        </button>
+        {this.state.showForm && this.showForm()}
+      </Grid.Column>
+    </Grid.Row>                                         
     );
   }
 }
