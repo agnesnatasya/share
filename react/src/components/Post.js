@@ -7,36 +7,69 @@ export class Post extends Component {
   constructor(props) {
     super(props);
         this.state = {
-            showForm: false,
+            showEditForm: false,
             postid: this.props.post.postid,
             title: this.props.post.title,
             body: this.props.post.body,
-            buttonName: 'Edit'
+            comment: this.props.post.comment,
+            editButton: 'Edit',
+            commentButton: 'Comment',
+            showCommentButton: 'Show Comment'
         };
         this.onChangeInfo = this.onChangeInfo.bind(this);
-        this.onClick = this.onClick.bind(this);
+        this.onClickEdit = this.onClickEdit.bind(this);
+        this.onClickComment = this.onClickComment.bind(this);
   }
 
-  onClick () {
-    if (this.state.showForm === false) {
-      this.setState({ showForm: true });
-      this.setState({ buttonName: 'Cancel'} )
+  onClickEdit () {
+    if (this.state.showEditForm === false) {
+      this.setState({ showEditForm: true });
+      this.setState({ editButton: 'Cancel'} )
     } else {
-      this.setState({ showForm: false });
-      this.setState({ buttonName: 'Edit'} )
+      this.setState({ showEditForm: false });
+      this.setState({ editButton: 'Edit'} )
     }
-    
+  }
+
+  onClickComment () {
+    if (this.state.showCommentForm === false) {
+      this.setState({ showCommentForm: true });
+      this.setState({ commentButton: 'Cancel'} )
+    } else {
+      this.setState({ showCommentForm: false });
+      this.setState({ commentButton: 'Comment'} )
+    }
+  }
+
+  onClickShowComment () {
+    if (this.state.showCommentForm === false) {
+      this.setState({ showComments: true });
+      this.setState({ showCommentButton: 'Cancel'} )
+    } else {
+      this.setState({ showCommentForm: false });
+      this.setState({ showCommentButton: 'Edit'} )
+    }
   }
 
   onChangeInfo(newInfo) {
     this.setState({ body:  newInfo.body })
   }
 
-  showForm () {
+  onComment(newInfo) {
+    this.setState({ body:  newInfo.body })
+  }
+
+  showEditForm () {
    return (
      <EditPost onChangeInfo={this.onChangeInfo} postid={this.state.postid} body={this.state.body} />
     )
-  };    
+  };   
+  
+  showCommentForm () {
+    return (
+      <CommentPost onComment={this.onComment} postid={this.state.postid} body={this.state.body} />
+     )
+   }; 
 
   render() {
     return (
@@ -45,12 +78,18 @@ export class Post extends Component {
         <List.Item key={this.props.post.postid}>
           <Header as="h1">{this.state.title}</Header>
           <List.Item>{this.state.body}</List.Item>
-          <List.Item>{this.state.showForm && this.showForm()}</List.Item>
+          <List.Item>{this.state.showEditForm && this.showEditForm()}</List.Item>
         </List.Item>
       </Grid.Column>
       <Grid.Column width={1} floated='right'>
-        <button className="ui right floated button" onClick={this.onClick}>
-        {this.state.buttonName}
+        <button className="ui right floated button" onClick={this.onClickEdit}>
+        {this.state.editButton}
+        </button>
+        <button className="ui right floated button" onClick={this.onClickComment}>
+        {this.state.commentButton}
+        </button>
+        <button className="ui right floated button" onClick={this.onClickShowComment}>
+        {this.state.showCommentButton}
         </button>
       </Grid.Column>
     </Grid.Row>                                         
