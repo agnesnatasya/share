@@ -46,8 +46,8 @@ export class Post extends Component {
       this.setState({ showComments: true });
       this.setState({ showCommentButton: 'Cancel'} )
     } else {
-      this.setState({ showCommentForm: false });
-      this.setState({ showCommentButton: 'Edit'} )
+      this.setState({ showComments: false });
+      this.setState({ showCommentButton: 'Show'} )
     }
   }
 
@@ -71,6 +71,12 @@ export class Post extends Component {
      )
    }; 
 
+  showComments () {
+    return (
+      <Comments comments={this.state.comment} />
+     )
+  }; 
+
   render() {
     return (
     <Grid.Row columns={2}>
@@ -79,6 +85,8 @@ export class Post extends Component {
           <Header as="h1">{this.state.title}</Header>
           <List.Item>{this.state.body}</List.Item>
           <List.Item>{this.state.showEditForm && this.showEditForm()}</List.Item>
+          <List.Item>{this.state.showCommentForm && this.showCommentForm()}</List.Item>
+          <List.Item>{this.state.showComments && this.showComments()}</List.Item>
         </List.Item>
       </Grid.Column>
       <Grid.Column width={1} floated='right'>
@@ -88,7 +96,17 @@ export class Post extends Component {
         <button className="ui right floated button" onClick={this.onClickComment}>
         {this.state.commentButton}
         </button>
-        <button className="ui right floated button" onClick={this.onClickShowComment}>
+        <button className="ui right floated button" 
+          onClick={async () => {
+            this.onClickShowComment();
+            const response = await fetch("/comments/" + this.props.postid);
+
+            if (response.ok) {
+              console.log("response worked");
+              const comments = (await response.json());
+              this.setState({ comments:  comments.comments });
+            }
+          }}>
         {this.state.showCommentButton}
         </button>
       </Grid.Column>
