@@ -10,18 +10,21 @@ import { Posts } from './components/Posts'
 import { Route, Redirect } from 'react-router-dom';
 import { Container, Header, Button, Icon, Menu } from 'semantic-ui-react';
 
-const HomepageHeading = ({ mobile }) => (
-  <Menu text style={{background: 'black', margin:0}}>
-    <Header inverted
-      as='h1'
-      content='Threads'
-      style={{
-        fontSize: mobile ? '2em' : '4em',
-        fontWeight: 'normal',
-        margin: 0,
-        marginBottom: 10,
-      }}
-    />
+const HeaderMenu = ({ mobile }) => (
+  <Menu text style={{background: 'teal', margin:0}}>
+    <Container>
+      <Menu.Item
+        as='h1'
+        content='Threads'
+        style={{
+          color: 'white',
+          fontSize: mobile ? '2em' : '4em',
+          fontWeight: 'normal',
+          margin: 0,
+          marginBottom: 10,
+        }}
+      />
+    </Container>
   </Menu>
 )
 
@@ -72,7 +75,7 @@ class App extends Component {
     if (this.state.userId==0) {
       return(
         <div>
-          <HomepageHeading />
+          <HeaderMenu />
           <Container style={{marginTop: 15}}>
             <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
             <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
@@ -85,7 +88,7 @@ class App extends Component {
     }
     return (
       <div>
-      <HomepageHeading />
+      <HeaderMenu />
       <Container style={{marginTop: 15}}>
         <NavBar userId={this.state.userId} posts={this.state.posts} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />
         <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
