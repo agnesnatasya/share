@@ -8,7 +8,7 @@ import { MyPosts } from './components/MyPosts';
 import { NavBar } from './components/NavBar';
 import { Posts } from './components/Posts'
 import { Route, Redirect } from 'react-router-dom';
-import { Container, Header, Button, Icon, Menu } from 'semantic-ui-react';
+import { Container, Header, Button, Grid, Menu } from 'semantic-ui-react';
 
 const HeaderMenu = () => (
   <Menu text style={{background: 'teal', margin:0, marginBottom: 10}}>
@@ -33,7 +33,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     props.match.params.userId == rest.userId
       ? <Component {...rest} />
       : <Redirect to={{
-        pathname: '/login',
+        pathname: '/',
         state: { onChangeUserId: rest.onChangeUserId }
         }} />
   )} />
@@ -76,7 +76,7 @@ class App extends Component {
       return(
         <div>
           <HeaderMenu />
-          <Container>
+          <Container style={{ maxWidth: 450 }}>
             <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
             <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
             <Route exact path="/sign-up" component={SignUp} />
@@ -89,14 +89,20 @@ class App extends Component {
     return (
       <div>
       <HeaderMenu />
-      <Container>
+      <Grid container style={{height: '100vh'}}>
+        <Grid.Column width={3} fluid>
         <NavBar userId={this.state.userId} posts={this.state.posts} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />
-        <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
-        <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
-        <Route exact path="/sign-up" component={SignUp} />
-        <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={PostForm} />
-        <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={() => <MyPosts myPosts={this.state.myPosts} />} />
-      </Container>
+        </Grid.Column>
+        <Grid.Column width={13}>
+          <Container>
+            <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
+            <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
+            <Route exact path="/sign-up" component={SignUp} />
+            <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={PostForm} />
+            <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={() => <MyPosts myPosts={this.state.myPosts} />} />
+          </Container>
+        </Grid.Column>
+      </Grid>
       </div>
     );
   }

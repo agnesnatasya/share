@@ -18,7 +18,8 @@ export class Post extends Component {
   }
 
   onClick () {
-    if (this.state.showEditForm === false) {
+    console.log("clicked :(")
+    if (this.state.showForm === false) {
       this.setState({ showForm: true });
       this.setState({ buttonName: 'Cancel'} )
     } else {
