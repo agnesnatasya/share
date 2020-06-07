@@ -8,7 +8,22 @@ import { MyPosts } from './components/MyPosts';
 import { NavBar } from './components/NavBar';
 import { Posts } from './components/Posts'
 import { Route, Redirect } from 'react-router-dom';
-import { Container } from 'semantic-ui-react';
+import { Container, Header, Button, Icon, Menu } from 'semantic-ui-react';
+
+const HomepageHeading = ({ mobile }) => (
+  <Menu text style={{background: 'black', margin:0}}>
+    <Header inverted
+      as='h1'
+      content='Threads'
+      style={{
+        fontSize: mobile ? '2em' : '4em',
+        fontWeight: 'normal',
+        margin: 0,
+        marginBottom: 10,
+      }}
+    />
+  </Menu>
+)
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -56,17 +71,22 @@ class App extends Component {
     console.log(this.state.userId)
     if (this.state.userId==0) {
       return(
-        <Container style={{ marginTop: 40 }}>
-          <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
-          <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
-          <Route exact path="/sign-up" component={SignUp} />
-          <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} component={PostForm} />
-          <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} myPosts={this.state.myPosts} component={() => <MyPosts />} />
-      </Container>
+        <div>
+          <HomepageHeading />
+          <Container style={{marginTop: 15}}>
+            <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
+            <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
+            <Route exact path="/sign-up" component={SignUp} />
+            <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} component={PostForm} />
+            <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} myPosts={this.state.myPosts} component={() => <MyPosts />} />
+          </Container>
+        </div>
       )
     }
     return (
-      <Container style={{ marginTop: 40 }}>
+      <div>
+      <HomepageHeading />
+      <Container style={{marginTop: 15}}>
         <NavBar userId={this.state.userId} posts={this.state.posts} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />
         <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
         <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
@@ -74,6 +94,7 @@ class App extends Component {
         <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={PostForm} />
         <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={() => <MyPosts myPosts={this.state.myPosts} />} />
       </Container>
+      </div>
     );
   }
 }
