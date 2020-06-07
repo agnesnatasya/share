@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
+import { Button, Divider, Form, Grid, Segment, Header, Message } from 'semantic-ui-react'
 
 export class RegisterForm extends Component {
   constructor(props) {
@@ -53,52 +53,32 @@ export class RegisterForm extends Component {
   }
 
   render() {
-    retur
-    const LoginForm = () => (
-  <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-    <Grid.Column style={{ maxWidth: 450 }}>
-      <Header as='h2' color='teal' textAlign='center'>
-        <Image src='/logo.png' /> Log-in to your account
-      </Header>
-      <Form size='large'>
-        <Segment stacked>
-          <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
-          <Form.Input
-            fluid
-            icon='lock'
-            iconPosition='left'
-            placeholder='Password'
-            type='password'
-          />
-
-          <Button color='teal' fluid size='large'>
-            Login
-          </Button>
-        </Segment>
-      </Form>
-      <Message>
-        New to us? <a href='#'>Sign Up</a>
-      </Message>
-    </Grid.Column>
-  </Grid>
-)
-
-
+    
     return (
       <Segment placeholder>
         {this.renderRedirect()}
-        <Grid columns={2} relaxed='very' stackable>
-          <Grid.Column>
-            <Form>
+        <Grid textAlign='center' 
+          style={{ height: '100%',
+                    border: 0,
+                    backgroundColor: 'white'}}
+          verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='teal' textAlign='center'>
+            Log-in to your account
+            </Header>
+            <Form size='large'>
+              <Segment stacked>
               <Form.Input
+                fluid
                 icon='user'
                 iconPosition='left'
-                label='Name'
+                label='Username'
                 placeholder='Username'
                 onChange={e => this.setState({username:e.target.value})}
               />
               <Form.Input
                 icon='lock'
+                fluid
                 iconPosition='left'
                 label='Password'
                 type='password'
@@ -106,18 +86,21 @@ export class RegisterForm extends Component {
               />
 
               <Button
+                fluid
+                size='large'
                 content='Login'
-                primary
+                color='teal'
                 onClick={this.setRedirect}/>
+            </Segment>
             </Form>
-          </Grid.Column>
 
-          <Grid.Column verticalAlign='middle'>
-            <Button content='Sign up' icon='signup' size='big' as={ Link } to='/sign-up' />
+            <Message>
+              New to us? <a href='/sign-up'>Sign Up</a>
+            </Message>
+
           </Grid.Column>
         </Grid>
 
-        <Divider vertical fitted>Or</Divider>
       </Segment>
     );
   }

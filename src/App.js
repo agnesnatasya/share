@@ -11,7 +11,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { Container, Header, Button, Icon, Menu } from 'semantic-ui-react';
 
 const HeaderMenu = () => (
-  <Menu text style={{background: 'teal', margin:0}}>
+  <Menu text style={{background: 'teal', margin:0, marginBottom: 10}}>
     <Container>
       <Menu.Item
         as='h1'
@@ -22,7 +22,6 @@ const HeaderMenu = () => (
           textAlign: 'center',
           fontWeight: 'normal',
           margin: 0,
-          marginBottom: 10,
         }}
       />
     </Container>
@@ -77,7 +76,7 @@ class App extends Component {
       return(
         <div>
           <HeaderMenu />
-          <Container style={{marginTop: 15}}>
+          <Container>
             <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
             <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
             <Route exact path="/sign-up" component={SignUp} />
@@ -90,7 +89,7 @@ class App extends Component {
     return (
       <div>
       <HeaderMenu />
-      <Container style={{marginTop: 15}}>
+      <Container>
         <NavBar userId={this.state.userId} posts={this.state.posts} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />
         <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
         <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
+import { Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
 
 export class SignUp extends Component {
   constructor(props) {
@@ -50,14 +50,19 @@ export class SignUp extends Component {
     return (
       <Segment placeholder>
         {this.renderRedirect()}
-        <Grid>
-          <Grid.Column>
-            <Form>
+        <Grid textAlign='center' 
+          style={{ height: '100%',
+                    border: 0,
+                    backgroundColor: 'white'}}
+          verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Form size='large'>
+              <Segment stacked>
               <Form.Input
                 icon='user'
                 iconPosition='left'
-                label='Name'
-                placeholder='Name'
+                label='Userame'
+                placeholder='Username'
                 onChange={e => this.setState({username:e.target.value})}
               />
               <Form.Input
@@ -84,10 +89,18 @@ export class SignUp extends Component {
 
               />
 
-              <Button content="Register" primary toggle onClick={this.setRedirect} fluid />
+              <Button
+                content="Register"
+                fluid
+                size='large'
+                color='teal'
+                toggle onClick={this.setRedirect} />
+              </Segment>
             </Form>
-            <Divider horizontal></Divider>
-            <Button content="Back to Login" compact toggle as={Link} to='/login' />
+
+            <Message>
+              Already have an account? <a href='/'>Back to Login</a>
+            </Message>
 
           </Grid.Column>
 
