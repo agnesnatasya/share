@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { Button, Divider, Form, Grid, Segment, Message } from 'semantic-ui-react'
+import { Button, Header, Form, Grid, Segment, Message } from 'semantic-ui-react'
 
 export class SignUp extends Component {
   constructor(props) {
@@ -56,6 +56,9 @@ export class SignUp extends Component {
                     backgroundColor: 'white'}}
           verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='teal' textAlign='center'>
+            Create a new account
+            </Header>
             <Form size='large'>
               <Segment stacked>
               <Form.Input

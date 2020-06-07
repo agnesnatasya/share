@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Button, Divider, Form, Grid, Segment, Header, Message } from 'semantic-ui-react'
+import { Button, Image, Form, Grid, Segment, Header, Message } from 'semantic-ui-react'
 
 export class RegisterForm extends Component {
   constructor(props) {
