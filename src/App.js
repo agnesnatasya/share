@@ -18,7 +18,9 @@ const HeaderMenu = () => (
         content='Threads'
         style={{
           color: 'white',
-          fontWeight: 'huge',
+          fontSize: '3em',
+          textAlign: 'center',
+          fontWeight: 'normal',
           margin: 0,
           marginBottom: 10,
         }}
