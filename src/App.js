@@ -10,7 +10,7 @@ import { Posts } from './components/Posts'
 import { Route, Redirect } from 'react-router-dom';
 import { Container, Header, Button, Icon, Menu } from 'semantic-ui-react';
 
-const HeaderMenu = ({ mobile }) => (
+const HeaderMenu = () => (
   <Menu text style={{background: 'teal', margin:0}}>
     <Container>
       <Menu.Item
@@ -18,8 +18,7 @@ const HeaderMenu = ({ mobile }) => (
         content='Threads'
         style={{
           color: 'white',
-          fontSize: mobile ? '2em' : '4em',
-          fontWeight: 'normal',
+          fontWeight: 'huge',
           margin: 0,
           marginBottom: 10,
         }}
