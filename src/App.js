@@ -15,7 +15,7 @@ const HeaderMenu = () => (
     <Container>
       <Menu.Item
         as='h1'
-        content='Threads'
+        content='Food-Threads'
         style={{
           color: 'white',
           fontSize: '3em',
