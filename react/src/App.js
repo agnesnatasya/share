@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { SignUp } from './components/SignUp';
-import { RegisterForm } from './components/RegisterForm';
-import { PostForm } from './components/PostForm';
-import { MyPosts } from './components/MyPosts';
+import { Rides } from './components/Rides';
 import { NavBar } from './components/NavBar';
-import { Posts } from './components/Posts'
 import { Route, Redirect } from 'react-router-dom';
-import { Container } from 'semantic-ui-react';
+import { Container, Header, Button, Grid, Menu } from 'semantic-ui-react';
+
+const HeaderMenu = () => (
+  <Menu text style={{ background: 'teal', margin: 0, marginBottom: 10 }}>
+    <Container>
+      <Menu.Item
+        as='h1'
+        content='Car Share'
+        style={{
+          color: 'white',
+          fontSize: '3em',
+          textAlign: 'center',
+          fontWeight: 'normal',
+          margin: 0,
+        }}
+      />
+    </Container>
+  </Menu>
+)
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
     props.match.params.userId == rest.userId
       ? <Component {...rest} />
       : <Redirect to={{
-        pathname: '/login',
+        pathname: '/',
         state: { onChangeUserId: rest.onChangeUserId }
-        }} />
+      }} />
   )} />
 )
 
@@ -25,13 +39,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      myPosts:[],
-      posts: [],
+      myRides: [],
+      rides: [],
       userId: 0,
     };
     this.changeUserId = this.changeUserId.bind(this);
-    this.changePosts = this.changePosts.bind(this);
-    this.changeMyPosts = this.changeMyPosts.bind(this);
+    this.changeRides = this.changeRides.bind(this);
+    this.changeMyRides = this.changeMyRides.bind(this);
   }
 
   changeUserId(newUserId) {
@@ -40,40 +54,33 @@ class App extends Component {
     });
   }
 
-  changePosts(newPosts) {
+  changeRides(newRides) {
     this.setState({
-      posts: newPosts
+      rides: newRides
     });
   }
 
-  changeMyPosts(newPosts) {
+  changeMyRides(newRides) {
     this.setState({
-      myPosts: newPosts
+      myRides: newRides
     });
   }
 
   render() {
-    console.log(this.state.userId)
-    if (this.state.userId==0) {
-      return(
-        <Container style={{ marginTop: 40 }}>
-          <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
-          <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
-          <Route exact path="/sign-up" component={SignUp} />
-          <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} component={PostForm} />
-          <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} myPosts={this.state.myPosts} component={() => <MyPosts />} />
-      </Container>
-      )
-    }
     return (
-      <Container style={{ marginTop: 40 }}>
-        <NavBar userId={this.state.userId} posts={this.state.posts} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />
-        <Route exact path="/posts" render={() => <Posts posts={this.state.posts} />} />
-        <Route exact path="/" render={() => <RegisterForm onChange={this.changeUserId} onChangePosts={this.changePosts} onChangeMyPosts={this.changeMyPosts} />} />
-        <Route exact path="/sign-up" component={SignUp} />
-        <PrivateRoute exact path="/new-post/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={PostForm} />
-        <PrivateRoute exact path="/my-posts/:userId" userId={this.state.userId} onChangeUserId={this.changeUserId} component={() => <MyPosts myPosts={this.state.myPosts} />} />
-      </Container>
+      <div>
+        <HeaderMenu />
+        <Grid container style={{ height: '100vh' }}>
+          <Grid.Column width={3} fluid>
+            <NavBar userId={this.state.userId} rides={this.state.rides} onChangeRides={this.changeRides} onChangeMyRides={this.changeMyRides} />
+          </Grid.Column>
+          <Grid.Column width={13}>
+            <Container>
+              <Rides rides={this.state.rides} />
+            </Container>
+          </Grid.Column>
+        </Grid>
+      </div>
     );
   }
 }
@@ -81,6 +88,6 @@ class App extends Component {
 export default App;
 
 
-  
 
- 
+
+
