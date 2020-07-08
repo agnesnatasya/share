@@ -16,7 +16,7 @@ export class NavBar extends Component {
 
   render() {
     return (
-      <Menu pointing secondary fluid widths={3}>
+      <Menu pointing secondary vertical fluid>
         <Menu.Item
           name='Current Posts'
           active={this.state.activeItem === 'Current Posts'}
