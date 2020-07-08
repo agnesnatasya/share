@@ -1,13 +1,13 @@
 import React from "react";
-import { Order } from './Ride';
+import { Ride } from './Ride';
 import { Grid } from "semantic-ui-react";
 
-export const MyOrders = ({ userId, myOrders }) => {
+export const MyRides = ({ userId, myRides }) => {
   return (
     <Grid divided='vertically'>
-      {myOrders.map(order => {
+      {myRides.map(ride => {
         return (
-          <Order order={order} key={order.orderid} />
+          <Ride ride={ride} key={ride.rideid} />
         );
 
       })}
