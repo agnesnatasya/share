@@ -1,13 +1,13 @@
 import React, { useState, Component } from "react";
-import { Form, Input, Rating, Button } from "semantic-ui-react";
+import { Form, Input, Button } from "semantic-ui-react";
 
-export class EditPost extends Component {
+export class EditRide extends Component {
   constructor(props) {
-        super(props);
+    super(props);
 
-        this.state = {
-            body: ""
-        };
+    this.state = {
+      body: ""
+    };
   }
 
   render() {
@@ -17,26 +17,26 @@ export class EditPost extends Component {
           <Input
             placeholder="Add to the threads"
             value={this.state.body}
-            onChange={e => this.setState({body: e.target.value})}
+            onChange={e => this.setState({ body: e.target.value })}
           />
         </Form.Field>
         <Form.Field>
           <Button
             onClick={async () => {
-              const post = { body: this.props.body + this.state.body };
+              const ride = { body: this.props.body + this.state.body };
               this.state.body = "";
 
-              const response = await fetch("/join-post/" + this.props.postid, {
+              const response = await fetch("/join-ride/" + this.props.rideid, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json"
                 },
-                body: JSON.stringify(post)
+                body: JSON.stringify(ride)
               });
 
               if (response.ok) {
                 console.log("response worked!");
-                this.props.onChangeInfo(post);
+                this.props.onChangeInfo(ride);
               }
             }}
           >
