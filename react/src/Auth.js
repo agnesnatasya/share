@@ -6,6 +6,7 @@ export class Auth {
     // Please use your own credentials here
     auth0 = new auth0.WebAuth({
         domain: 'car-share-dev.us.auth0.com',
+        scope: 'openid profile email',
         clientID: 'AaDUFZlnrvlDJN0zzvin203SxJ57xWxT',
         redirectUri: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/callback' : 'null',
         responseType: 'token id_token',
