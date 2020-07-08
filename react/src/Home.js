@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import App from './App';
+import { Rides } from './components/Rides';
+import jwt_decode from 'jwt-decode';
 
 export class Home extends Component {
     // calls the login method in authentication service
@@ -19,7 +20,7 @@ export class Home extends Component {
                     isAuthenticated() &&
                     <div className="container column">
                         <h5>
-                            You are logged in!{' '}
+                            You are logged in!{' '} {}
                             <a
                                 style={{ cursor: 'pointer' }}
                                 onClick={this.logout}
@@ -27,7 +28,8 @@ export class Home extends Component {
                                 Log Out
               </a>.
             </h5>
-                        <App />
+                        {console.log(jwt_decode(localStorage.getItem('id_token')))}
+                        <Rides />
                     </div>
                 }
                 {
