@@ -23,8 +23,9 @@ const NavBarShare = () => (
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#link">Link</Nav.Link>
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/new-ride/:userId">New Ride</Nav.Link>
+                <Nav.Link href="/my-rides/:userId">My Rides</Nav.Link>
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -39,17 +40,16 @@ const NavBarShare = () => (
 
 const Routes = () => (
     <Router history={history} component={Home}>
-        <NavBarShare>
-            <Route exact path="/posts" render={() => <Rides posts={this.state.posts} />} />
-            <Route exact path="/new-post/:userId" component={RideForm} />
-            <Route exact path="/my-posts/:userId" component={() => <MyRides myPosts={this.state.myPosts} />} />
-            <Route exact path="/" render={(props) => <Home auth={auth} {...props} />} />
-            <Route path="/home" render={(props) => <Home auth={auth} {...props} />} />
-            <Route path="/callback" render={(props) => {
-                handleAuthentication(props);
-                return <Callback {...props} />
-            }} />
-        </NavBarShare>
+        <NavBarShare />
+        <Route exact path="/posts" render={() => <Rides posts={this.state.posts} />} />
+        <Route exact path="/new-post/:userId" component={RideForm} />
+        <Route exact path="/my-posts/:userId" component={() => <MyRides myPosts={this.state.myPosts} />} />
+        <Route exact path="/" render={(props) => <Home auth={auth} {...props} />} />
+        <Route path="/home" render={(props) => <Home auth={auth} {...props} />} />
+        <Route path="/callback" render={(props) => {
+            handleAuthentication(props);
+            return <Callback {...props} />
+        }} />
     </Router >
 );
 
