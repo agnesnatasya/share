@@ -1,9 +1,10 @@
 from app import db
+from sqlalchemy.orm import relationship
 
 
 class User(db.Model):
     __tablename__ = 'users'
-    id_token = db.Column(db.String(1000))
+    id_token = db.Column(db.String(1000), primary_key=True)
     email = db.Column(db.String(100))
     trips = relationship("Trip", secondary="rides")
 
@@ -23,5 +24,5 @@ class Trip(db.Model):
 class Ride(db.Model):
     __tablename__ = 'rides'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(300), db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(300), db.ForeignKey('users.id_token'))
     trip_id = db.Column(db.Integer, db.ForeignKey('trips.id'))
