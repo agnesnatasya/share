@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 COPY . /api
 RUN export FLASK_APP=app
 RUN export FLASK_ENV=development
-RUN flask run
+CMD ["flask", "run"]
