@@ -2,14 +2,22 @@ from flask import Blueprint, request, jsonify
 from . import db
 from app import app
 from .models import *
+import datetime
 
 
-@app.route('/trips')
-def home():
+@app.route('/trips/<string:email>')
+def trips(email):
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        new_user = User(email=email)
+        db.session.add(new_user)
+        db.session.commit()
+
     trips_db = Trip.query.all()
     trips = []
     for trip in trips_db:
         emails = list(map(lambda x: x.email, trip.users))
+        join = email in emails
         trips.append({
             'id': trip.id,
             'creator': trip.creator,
@@ -18,24 +26,32 @@ def home():
             'origin': trip.origin,
             'destination': trip.destination,
             'capacity': trip.capacity,
-            'user_emails': emails
+            'user_emails': emails,
+            'join': join
         })
 
     return jsonify({'trips': trips})
 
 
-@app.route('/new-post/<string:userid>', methods=['POST'])
-def newpost(userid):
-    post_data = request.get_json()  #resto name, items, location, time
+@app.route('/new-trip/<string:email>', methods=['POST'])
+def new_trip(email):
+    trip_data = request.get_json()
 
-    new_post = Post(userid=userid,
-                    title=post_data.get('title'),
-                    body=post_data.get('body'))
+    new_trip = Trip(
+        creator=email,
+        created_at=datetime.datetime.utcfromtimestamp(
+            trip_data.get('createdAtFormatted') / 1000),
+        depart_time=datetime.datetime.utcfromtimestamp(
+            trip_data.get('departTimeFormatted') / 1000),
+        origin=trip_data.get('origin'),
+        destination=trip_data.get('destination'),
+        capacity=trip_data.get('capacity'),
+    )
 
-    db.session.add(new_post)
+    db.session.add(new_trip)
     db.session.commit()
 
-    return 'YAS', 201
+    return 'success', 201
 
 
 @app.route('/my-posts/<string:userid>')
