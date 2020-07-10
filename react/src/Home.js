@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Rides } from './components/Rides';
-import jwt_decode from 'jwt-decode';
+import { Trips } from './components/Trips';
 
 export class Home extends Component {
     // calls the login method in authentication service
@@ -28,8 +27,7 @@ export class Home extends Component {
                                 Log Out
               </a>.
             </h5>
-                        {console.log(jwt_decode(localStorage.getItem('id_token')))}
-                        <Rides />
+                        <Trips auth={this.props.auth} />
                     </div>
                 }
                 {
