@@ -6,7 +6,7 @@ export const TripForm = ({ userId }) => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [capacity, setCapacity] = useState("");
-  const [departTime, setDepartTime] = useState(new Date())
+  const [departTimeFormat, setDepartTimeFormat] = useState(new Date())
 
   return (
     <Container>
@@ -57,17 +57,16 @@ export const TripForm = ({ userId }) => {
         <Col sm="10">
           <DateTimePicker
             variant="round"
-            value={departTime}
-            onChange={setDepartTime}
+            value={departTimeFormat}
+            onChange={setDepartTimeFormat}
           />
         </Col>
       </Form.Group>
       <Button
         onClick={async () => {
-          console.log(capacity);
-          const createdAtFormatted = new Date().getTime();
-          const departTimeFormatted = departTime.getTime();
-          const trip = { createdAtFormatted, departTimeFormatted, origin, destination, capacity };
+          const createdAt = new Date().getTime();
+          const departTime = departTimeFormat.getTime();
+          const trip = { createdAt, departTime, origin, destination, capacity };
           const response = await fetch("/new-trip/" + localStorage.getItem('email'), {
             method: "POST",
             headers: {
@@ -81,7 +80,7 @@ export const TripForm = ({ userId }) => {
             setOrigin("");
             setDestination("");
             setCapacity("");
-            setDepartTime(new Date())
+            setDepartTimeFormat(new Date())
           }
         }}
       >
