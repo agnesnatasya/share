@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Trip } from './Trip.js';
-import { Accordion, ButtonGroup, ToggleButton } from "react-bootstrap";
+import { ButtonGroup, ToggleButton } from "react-bootstrap";
 
 const toggles = [
   { name: 'All', value: '1' },
@@ -46,15 +46,31 @@ export class Trips extends React.Component {
     let tripsList = this.state.trips;
 
     if (this.state.toggleValue == '2') {
-      tripsList = tripsList.filter((trip) => trip.join)
+      tripsList = tripsList.filter((trip) => trip.join || trip.creator == localStorage.getItem('email'))
     }
 
     if (this.state.toggleValue == '3') {
-      tripsList = tripsList.filter((trip) => trip.creator == this.props.email)
+      console.log(this.props.email)
+      tripsList = tripsList.filter((trip) => trip.creator == localStorage.getItem('email'))
     }
 
     return (
-      <Accordion defaultActiveKey="0">
+      <div>
+        <ButtonGroup toggle>
+          {toggles.map((toggle, idx) => (
+            <ToggleButton
+              key={idx}
+              type="radio"
+              variant="light"
+              name="radio"
+              value={toggle.value}
+              checked={this.state.toggleValue === toggle.value}
+              onChange={(e) => this.setState({ toggleValue: e.currentTarget.value })}
+            >
+              {toggle.name}
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
         {
           tripsList.map(trip => {
             return (
@@ -62,7 +78,7 @@ export class Trips extends React.Component {
             );
           })
         }
-      </Accordion >
+      </div >
     );
   };
 
