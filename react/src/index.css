@@ -12,40 +12,69 @@ code {
     monospace;
 }
 
-.button {
-  margin:auto;
-}
 
 .list-group {
   padding: 3%;
+  border: 0px;
+  border-radius: .25rem;
+  margin-top: 5%;
+}
+
+.card-body {
+  padding: 0%;
+  border: 0
+}
+
+.list-group-horizontal {
+  padding: 0%;
+  margin-top: 0%;
   border: 1px solid #ced4da !important;
   border-radius: .25rem;
+  border:0
 }
+
 .list-group-item {
   padding: 1%;
+  border: 0
+}
+
+.info-holder {
+  padding:1%;
+  margin: 1%;
   border: 0;
+  width: 85%
 }
 
 .button-holder{
   padding: 1%;
+  margin: 1%;
   border: 0;
-  margin: auto;
+  text-align: right;
+  width: 15%;
+}
+
+.card {
+  margin: 3%;
+}
+
+.card-body {
+  border: 0;
 }
 
 .input-group-left {
-  width: 50%
+  width: 45%
+}
+
+.input-group-middle {
+  width: 45%
 }
 
 .input-group-right {
-  width: 50%
+  width: 10%
 }
 
 .input-group-text {
   width: 100%;
-}
-
-.list-group {
-  margin-top: 5%;
 }
 
 .content-left {
