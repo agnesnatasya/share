@@ -4,9 +4,8 @@ import { Home } from './Home';
 import { Callback } from './Callback';
 import { Auth } from './Auth';
 import history from './history';
-import { Rides } from './components/Rides';
-import { MyRides } from './components/MyRides';
-import { RideForm } from './components/RideForm';
+import { Trips } from './components/Trips';
+import { TripForm } from './components/TripForm';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 const auth = new Auth();
@@ -19,13 +18,13 @@ const handleAuthentication = (nextState, replace) => {
 
 const NavBarShare = () => (
     < Navbar bg="light" expand="lg" >
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">Trip Share</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/new-ride/:userId">New Ride</Nav.Link>
-                <Nav.Link href="/my-rides/:userId">My Rides</Nav.Link>
+                <Nav.Link href="/new-trip">New Trip</Nav.Link>
+                <Nav.Link href="/my-trips">My Trips</Nav.Link>
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -37,13 +36,13 @@ const NavBarShare = () => (
         </Navbar.Collapse>
     </Navbar >
 )
+const { isAuthenticated } = auth;
 
 const Routes = () => (
     <Router history={history} component={Home}>
-        <NavBarShare />
-        <Route exact path="/posts" render={() => <Rides posts={this.state.posts} />} />
-        <Route exact path="/new-post/:userId" component={RideForm} />
-        <Route exact path="/my-posts/:userId" component={() => <MyRides myPosts={this.state.myPosts} />} />
+        {isAuthenticated() && <NavBarShare />}
+        <Route exact path="/trips" render={(props) => <Trips auth={auth} {...props} />} />
+        <Route exact path="/new-trip" component={TripForm} />
         <Route exact path="/" render={(props) => <Home auth={auth} {...props} />} />
         <Route path="/home" render={(props) => <Home auth={auth} {...props} />} />
         <Route path="/callback" render={(props) => {
