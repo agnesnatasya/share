@@ -2,15 +2,14 @@ from flask import Blueprint, request, jsonify
 from . import db
 from app import app
 from .models import *
-import datetime
 
 
 @app.route('/trips/<string:email>')
 def trips(email):
     user = User.query.filter_by(email=email).first()
     if not user:
-        new_user = User(email=email)
-        db.session.add(new_user)
+        user = User(email=email)
+        db.session.add(user)
         db.session.commit()
 
     trips_db = Trip.query.all()
@@ -39,19 +38,58 @@ def new_trip(email):
 
     new_trip = Trip(
         creator=email,
-        created_at=datetime.datetime.utcfromtimestamp(
-            trip_data.get('createdAtFormatted') / 1000),
-        depart_time=datetime.datetime.utcfromtimestamp(
-            trip_data.get('departTimeFormatted') / 1000),
+        created_at=trip_data.get('createdAt'),
+        depart_time=trip_data.get('departTime'),
         origin=trip_data.get('origin'),
         destination=trip_data.get('destination'),
         capacity=trip_data.get('capacity'),
     )
 
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        user = User(email=email)
+    new_trip.users.append(user)
+    db.session.add(user)
     db.session.add(new_trip)
     db.session.commit()
 
     return 'success', 201
+
+
+@app.route('/join-trip/<string:email>/<string:id>', methods=['POST'])
+def join_trip(email, id):
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        user = User(email=email)
+
+    trip = Trip.query.filter_by(id=id).first()
+
+    if not (user in trip.users) and not (trip in user.trips):
+        trip.users.append(user)
+
+    db.session.add(user)
+    db.session.add(trip)
+
+    db.session.commit()
+
+    return 'success', 200
+
+
+@app.route('/quit-trip/<string:email>/<string:id>', methods=['POST'])
+def quit_trip(email, id):
+    user = User.query.filter_by(email=email).first()
+
+    trip = Trip.query.filter_by(id=id).first()
+
+    user.trips.remove(trip)
+    trip.users.remove(user)
+
+    db.session.add(user)
+    db.session.add(trip)
+
+    db.session.commit()
+
+    return 'success', 200
 
 
 @app.route('/my-posts/<string:userid>')
@@ -67,18 +105,3 @@ def myposts(userid):
             })
 
     return jsonify({'myposts': myposts})
-
-
-@app.route('/join-post/<string:postid>', methods=['POST'])
-def joinpost(postid):
-    join_post_input = request.get_json()
-    post = list(filter(lambda x: x.postid == int(postid), Post.query.all()))[0]
-
-    new_post = Post(postid=int(postid),
-                    userid=post.userid,
-                    title=post.title,
-                    body=join_post_input.get('body'))
-    db.session.delete(post)
-    db.session.add(new_post)
-    db.session.commit()
-    return 'YAS', 201
