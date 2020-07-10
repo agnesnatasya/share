@@ -41,24 +41,22 @@ export class Trip extends Component {
       <Accordion defaultActiveKey="0">
         <Card>
           <Card.Header>
-            <InputGroup>
-              <InputGroup.Prepend className="input-group-left">
-                <InputGroup.Text id="basic-addon1"><div class="text-wrap">{this.state.origin}</div></InputGroup.Text>
-              </InputGroup.Prepend>
-              <InputGroup.Prepend className="input-group-middle">
-                <InputGroup.Text id="basic-addon1"><div class="text-wrap">{this.state.destination}</div></InputGroup.Text>
-              </InputGroup.Prepend>
-              <InputGroup.Prepend className="input-group-right">
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  <div class="text-wrap">Details..</div>
-                </Accordion.Toggle>
-              </InputGroup.Prepend>
-            </InputGroup>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              <InputGroup>
+                <InputGroup.Prepend className="input-group-left">
+                  <InputGroup.Text id="basic-addon1"><div class="text-wrap">{this.state.origin}</div></InputGroup.Text>
+                </InputGroup.Prepend>
+                <InputGroup.Prepend className="input-group-middle">
+                  <InputGroup.Text id="basic-addon1"><div class="text-wrap">{this.state.destination}</div></InputGroup.Text>
+                </InputGroup.Prepend>
+              </InputGroup>
+            </Accordion.Toggle>
+
           </Card.Header>
 
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <ListGroup horizontal>
+              <ListGroup horizontal='md'>
                 <ListGroup.Item className="info-holder">
                   <Button disabled={true} variant="info" size="sm">
                     Depart time: {dateFormat(this.state.departTime, "mmmm dS, yyyy HH:MM")}
@@ -67,10 +65,18 @@ export class Trip extends Component {
                 </ListGroup.Item>
 
                 <ListGroup.Item className="button-holder">
-                  <Button
-                    variant={this.state.buttonVariant}
-                    onClick={this.onClick}
-                  >{this.state.buttonName}</Button>{' '}
+                  {
+                    this.state.creator === localStorage.getItem('email') ?
+                      <Button
+                        variant='secondary'
+                        disabled={true}
+                      >Joined</Button>
+                      :
+                      <Button
+                        variant={this.state.buttonVariant}
+                        onClick={this.onClick}
+                      >{this.state.buttonName}</Button>
+                  }
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
