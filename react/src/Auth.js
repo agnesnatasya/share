@@ -1,6 +1,7 @@
 import auth0 from 'auth0-js';
 
 import history from './history';
+import jwt_decode from 'jwt-decode';
 
 export class Auth {
     // Please use your own credentials here
@@ -32,10 +33,13 @@ export class Auth {
     // Sets user details in localStorage
     setSession = (authResult) => {
         // Set the time that the access token will expire at
+        let email = jwt_decode(authResult.idToken).email;
+        console.log(email)
         let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
+        localStorage.setItem('email', email)
         // navigate to the home route
         history.replace('/home');
     }
@@ -46,6 +50,7 @@ export class Auth {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
+        localStorage.removeItem('email')
         // navigate to the home route
         history.replace('/home');
     }
