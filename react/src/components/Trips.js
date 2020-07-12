@@ -13,8 +13,13 @@ export class Trips extends React.Component {
     super(props);
     this.state = {
       trips: [],
+      created_trips: [],
+      joined_trips: [],
       toggleValue: '1'
     }
+    this.onJoinTrip = this.onJoinTrip.bind(this);
+    this.onCancelTrip = this.onCancelTrip.bind(this);
+
   }
 
   buttons = () => (
@@ -39,42 +44,63 @@ export class Trips extends React.Component {
   componentDidMount() {
     fetch('/trips/' + localStorage.getItem('email'))
       .then(response => response.json())
-      .then(data => this.setState({ trips: data.trips }));
+      .then(data => this.setState({
+        trips: data.trips,
+        created_trips: data.trips.filter((trip) => trip.creator == localStorage.getItem('email')),
+        joined_trips: data.trips.filter((trip) => trip.creator == localStorage.getItem('email') || trip.users.includes(localStorage.getItem('email'))),
+      }));
   }
 
+  onJoinTrip(trip) {
+    this.setState({ joined_trips: [trip, ...this.state.joined_trips] });
+  }
+
+  onCancelTrip(trip) {
+    this.setState({ joined_trips: this.state.joined_trips.filter(joined_trip => joined_trip.id !== trip.id) });
+  }
+
+
   render() {
-    let tripsList = this.state.trips;
-
-    if (this.state.toggleValue == '2') {
-      tripsList = tripsList.filter((trip) => trip.join || trip.creator == localStorage.getItem('email'))
+    var tripsList;
+    if (this.state.toggleValue === '1') {
+      tripsList = this.state.trips;
+    } else if (this.state.toggleValue === '2') {
+      tripsList = this.state.joined_trips;
+    } else if (this.state.toggleValue === '3') {
+      tripsList = this.state.created_trips;
     }
-
-    if (this.state.toggleValue == '3') {
-      console.log(this.props.email)
-      tripsList = tripsList.filter((trip) => trip.creator == localStorage.getItem('email'))
-    }
-
     return (
       <div>
-        <ButtonGroup toggle>
-          {toggles.map((toggle, idx) => (
-            <ToggleButton
-              key={idx}
-              type="radio"
-              variant="light"
-              name="radio"
-              value={toggle.value}
-              checked={this.state.toggleValue === toggle.value}
-              onChange={(e) => this.setState({ toggleValue: e.currentTarget.value })}
-            >
-              {toggle.name}
-            </ToggleButton>
-          ))}
-        </ButtonGroup>
+        <div className="button-group-holder">
+          <ButtonGroup toggle>
+            {toggles.map((toggle, idx) => (
+              <ToggleButton
+                key={idx}
+                type="radio"
+                variant="light"
+                name="radio"
+                value={toggle.value}
+                checked={this.state.toggleValue === toggle.value}
+                onChange={(e) => this.setState({ toggleValue: e.currentTarget.value })}
+              >
+                {toggle.name}
+              </ToggleButton>
+            ))}
+          </ButtonGroup>
+        </div>
+
         {
           tripsList.map(trip => {
             return (
-              <Trip trip={trip} key={trip.id} />
+              <Trip
+                trip={trip}
+                key={trip.id}
+                buttonName={trip.buttonName}
+                buttonVariant={trip.buttonVariant}
+                buttonDisable={trip.buttonDisable}
+                onJoinTrip={this.onJoinTrip}
+                onCancelTrip={this.onCancelTrip}
+              />
             );
           })
         }
