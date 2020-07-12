@@ -16,7 +16,7 @@ def trips(email):
     trips = []
     for trip in trips_db:
         emails = list(map(lambda x: x.email, trip.users))
-        join = email in emails
+        print(emails)
         trips.append({
             'id': trip.id,
             'creator': trip.creator,
@@ -25,8 +25,7 @@ def trips(email):
             'origin': trip.origin,
             'destination': trip.destination,
             'capacity': trip.capacity,
-            'user_emails': emails,
-            'join': join
+            'users': emails,
         })
 
     return jsonify({'trips': trips})
@@ -63,6 +62,7 @@ def join_trip(email, id):
         user = User(email=email)
 
     trip = Trip.query.filter_by(id=id).first()
+    trip.capacity = trip.capacity - 1
 
     if not (user in trip.users) and not (trip in user.trips):
         trip.users.append(user)
@@ -80,9 +80,9 @@ def quit_trip(email, id):
     user = User.query.filter_by(email=email).first()
 
     trip = Trip.query.filter_by(id=id).first()
+    trip.capacity = trip.capacity + 1
 
     user.trips.remove(trip)
-    trip.users.remove(user)
 
     db.session.add(user)
     db.session.add(trip)
