@@ -14,8 +14,9 @@ export class Trip extends Component {
       destination: this.props.trip.destination,
       capacity: this.props.trip.capacity,
       users: this.props.trip.users,
-      buttonName: 'Join',
-      buttonVariant: 'success'
+      buttonName: this.props.buttonName ? this.props.buttonName : this.props.trip.creator === localStorage.getItem('email') ? 'Created' : this.props.trip.users.includes(localStorage.getItem('email')) ? 'Cancel' : this.props.trip.capacity <= 0 ? 'Full' : 'Join',
+      buttonVariant: this.props.buttonVariant ? this.props.buttonVariant : this.props.trip.creator === localStorage.getItem('email') ? 'secondary' : this.props.trip.users.includes(localStorage.getItem('email')) ? 'secondary' : this.props.trip.capacity <= 0 ? 'secondary' : 'success',
+      buttonDisable: this.props.buttonDisable ? this.props.buttonDisable : this.props.trip.creator === localStorage.getItem('email') ? true : this.props.trip.users.includes(localStorage.getItem('email')) ? false : this.props.trip.capacity <= 0 ? true : false,
     };
     this.onClick = this.onClick.bind(this);
   }
@@ -25,12 +26,14 @@ export class Trip extends Component {
       await fetch("/join-trip/" + localStorage.getItem('email') + '/' + this.state.id, {
         method: "POST",
       });
-      this.setState({ buttonName: 'Cancel', buttonVariant: 'secondary' })
+      this.setState({ buttonName: 'Cancel', buttonVariant: 'secondary', buttonDisable: false })
+      this.props.onJoinTrip(this.state);
     } else {
       await fetch("/quit-trip/" + localStorage.getItem('email') + '/' + this.state.id, {
         method: "POST",
       });
-      this.setState({ buttonName: 'Join', buttonVariant: 'success' })
+      this.setState({ buttonName: 'Join', buttonVariant: 'success', buttonDisable: false })
+      this.props.onCancelTrip(this.state);
     }
 
   }
@@ -61,22 +64,12 @@ export class Trip extends Component {
                   <Button disabled={true} variant="info" size="sm">
                     Depart time: {dateFormat(this.state.departTime, "mmmm dS, yyyy HH:MM")}
                   </Button> {' '}
-                  <Button disabled={true} variant="info" size="sm">Driver: {this.state.creator}</Button>
+                  <br />
+                  <Badge variant="info" size="sm"><div class="text-wrap">Contact: {this.state.creator}</div></Badge>
                 </ListGroup.Item>
 
                 <ListGroup.Item className="button-holder">
-                  {
-                    this.state.creator === localStorage.getItem('email') ?
-                      <Button
-                        variant='secondary'
-                        disabled={true}
-                      >Joined</Button>
-                      :
-                      <Button
-                        variant={this.state.buttonVariant}
-                        onClick={this.onClick}
-                      >{this.state.buttonName}</Button>
-                  }
+                  <Button variant={this.state.buttonVariant} disabled={this.state.buttonDisable} onClick={this.onClick}>{this.state.buttonName}</Button>
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
